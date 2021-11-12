@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Initial from './src/pages/onboarding/initial';
 import Login from './src/pages/onboarding/login';
+import Registration from './src/pages/onboarding/registration';
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         >
           <Stack.Screen name='Initial' component={Initial} />
           <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='Registration' component={Registration} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

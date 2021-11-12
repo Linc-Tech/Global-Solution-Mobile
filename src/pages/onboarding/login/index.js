@@ -66,13 +66,17 @@ export default function Login({ navigation }) {
             <Text>
               Ainda não possuo uma conta?
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={ () => navigation.navigate('Registration') }
+            >
               <Link>Cadastrar</Link>
             </TouchableOpacity>
           </CreateAccount>
 
           <View>
-            <Button style={{ marginTop: 20, backgroundColor: '#198754' }}>
+            <Button style={{ marginTop: 20, backgroundColor: '#198754' }}
+              onPress={ () => null }
+            >
               <ButtonText>Entrar</ButtonText>
             </Button>
           </View>

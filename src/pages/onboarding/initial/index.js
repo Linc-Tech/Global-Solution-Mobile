@@ -26,7 +26,7 @@ export default function Initial({ navigation }) {
 
         <Buttons>
           <Button style={[styles.button, { backgroundColor: '#198754'}]}
-            onPress={ () => null }
+            onPress={ () => navigation.navigate('Login')  }
           >
             <ButtonText>
               QUERO RECEBER
@@ -34,7 +34,7 @@ export default function Initial({ navigation }) {
           </Button>
 
           <Button style={[styles.button, { backgroundColor: '#2b2b2b' }]}
-            onPress={ () => navigation.navigate('Login') }
+            onPress={ () => null }
           >
             <ButtonText>
               QUERO DOAR

@@ -22,6 +22,7 @@ export const Title = styled.Text`
 export const Subtitle = styled.Text`
   font-size: 18px;
   margin: 10px 0 20px;
+  font-weight: 300;
   font-family: 'Helvetica';
 `;
 
