@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Initial from './src/pages/onboarding/initial';
+import Login from './src/pages/onboarding/login';
 
 
 export default function App() {
@@ -19,7 +20,7 @@ export default function App() {
           initialRouteName='Initial'
         >
           <Stack.Screen name='Initial' component={Initial} />
-
+          <Stack.Screen name='Login' component={Login} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
