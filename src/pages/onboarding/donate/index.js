@@ -8,18 +8,36 @@ export default function Donate({ navigation }) {
   const arr = [
     {
       id: 1,
+      cnpj: '1234567/1030-87',
+      email: 'ong@gmail.com',
+      bank: {
+        agency: '0000',
+        account: '00000-00',
+      },
       title: 'DoaFácil',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
       donationsQuantify: 200,
     },
     {
       id: 2,
+      cnpj: '1234567/1030-87',
+      email: 'ong@gmail.com',
+      bank: {
+        agency: '0000',
+        account: '00000-00',
+      },
       title: 'DoaFácil',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
       donationsQuantify: 200,
     },
     {
       id: 3,
+      cnpj: '1234567/1030-87',
+      email: 'ong@gmail.com',
+      bank: {
+        agency: '0000',
+        account: '00000-00',
+      },
       title: 'DoaFácil',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
       donationsQuantify: 200,
@@ -57,7 +75,9 @@ export default function Donate({ navigation }) {
           </Text>
         </TextField>
         <ItemFooter>
-          <Button>
+          <Button
+            onPress={ () => navigation.navigate('Ong', { ong: item }) }
+          >
             <ButtonText>Doar</ButtonText>
           </Button>
 

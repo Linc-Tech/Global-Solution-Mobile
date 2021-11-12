@@ -7,6 +7,7 @@ import Initial from './src/pages/onboarding/initial';
 import Login from './src/pages/onboarding/login';
 import Registration from './src/pages/onboarding/registration';
 import Donate from './src/pages/onboarding/donate';
+import Ong from './src/pages/onboarding/donate/ongInfos';
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='Registration' component={Registration} />
           <Stack.Screen name='Donate' component={Donate} />
+          <Stack.Screen name='Ong' component={Ong} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
