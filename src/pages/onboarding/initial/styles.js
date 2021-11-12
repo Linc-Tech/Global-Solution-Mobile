@@ -34,6 +34,14 @@ export const Title = styled.Text`
   font-family: 'Helvetica';
 `;
 
+export const Subtitle = styled.Text`
+  line-height: 30px;
+  font-size: 20px;
+  font-weight: 300;
+  color: white;
+  font-family: 'Helvetica';
+`;
+
 export const Buttons = styled.View`
   margin-bottom: 30px;
   align-items: center;
