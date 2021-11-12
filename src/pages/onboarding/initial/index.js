@@ -33,8 +33,8 @@ export default function Initial({ navigation }) {
             </ButtonText>
           </Button>
 
-          <Button style={[styles.button, { backgroundColor: '#2b2b2b' }]}
-            onPress={ () => null }
+          <Button style={[styles.button, { backgroundColor: '#3b3b3b' }]}
+            onPress={ () => navigation.navigate('Donate') }
           >
             <ButtonText>
               QUERO DOAR
