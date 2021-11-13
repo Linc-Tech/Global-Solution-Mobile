@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import ComeBackButton from "../../../components/ComeBackButton";
 import { Container } from "../login/styles";
-import { Background, Button, ButtonText, Item, ItemFooter, OngName, TextField, Title } from "./styles";
+import { Background, Button, ButtonText, Header, Item, ItemFooter, OngName, TextField, Title, TitleContainer } from "./styles";
 
 export default function Donate({ navigation }) {
   const arr = [
@@ -47,17 +47,17 @@ export default function Donate({ navigation }) {
 
   function __renderScreenHeader() {
     return(
-      <View>
+      <Header>
         <ComeBackButton
           navigation={navigation}
         />
 
-        <View>
+        <TitleContainer>
           <Title>
             Escolhe uma ONG
           </Title>
-        </View>
-      </View>
+        </TitleContainer>
+      </Header>
     )
   }
 

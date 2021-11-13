@@ -1,14 +1,22 @@
 import styled from "styled-components";
 
 export const Background = styled.View`
-  height: 150px;
+  height: 20%;
   width: 100%;
   position: absolute;
   background: #198754;
 `;
 
+export const Header = styled.View`
+  height: 22%;
+`;
+
+export const TitleContainer = styled.View`
+  flex: 1;
+  justify-content: flex-end;
+`;
+
 export const Title = styled.Text`
-  margin: 80px 0 30px;
   font-size: 18px;
   text-align: center;
   font-weight: 600;
