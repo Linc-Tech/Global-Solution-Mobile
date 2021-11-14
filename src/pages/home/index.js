@@ -45,7 +45,7 @@ export default function Home({ navigation }) {
 
 
   return(
-    <SafeAreaView  style={{ flex: 1, backgroundColor: '#198754' }}>
+    <SafeAreaView  style={{ flex: 1, backgroundColor: 'white' }}>
       <Container style={{ marginTop: 20 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Welcome numberOfLines={1}>Seja bem-vinde, DoeFácil</Welcome>

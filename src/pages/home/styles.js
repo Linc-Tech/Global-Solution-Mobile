@@ -5,8 +5,8 @@ export const Welcome = styled.Text`
   font-weight: 600;
   font-family: 'Helvetica';
   flex: 1;
-  /* color: #198754; */
-  color: #FFF;
+  color: #198754;
+  /* color: #FFF; */
 `;
 
 export const BtnSignOut = styled.TouchableOpacity`
@@ -43,14 +43,14 @@ export const HomeSubtitleTxt = styled.Text`
   text-align: center;
   font-weight: 100;
   font-family: 'Helvetica';
-  color: #FFF;
+  /* color: #FFF; */
 `;
 
 export const HomeTxtValues = styled.Text`
   font-size: 30px;
   text-align: center;
   font-family: 'Helvetica';
-  /* color: #198754; */
-  color: #FFF;
+  color: #198754;
+  /* color: #FFF; */
 `;
 
