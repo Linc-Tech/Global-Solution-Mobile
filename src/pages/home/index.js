@@ -54,40 +54,39 @@ export default function Home({ navigation }) {
           </BtnSignOut>
         </View>
 
-        {
-          modalVisible
-          ?
-          __renderModal()
-          :
-          <></>
-        }
-
         <Content>
-          <HomeBox>
-            <View>
-              <HomeMainTxt>Qtd</HomeMainTxt>
-              <HomeSubtitleTxt>doações</HomeSubtitleTxt>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <HomeTxtValues>300</HomeTxtValues>
-            </View>
-          </HomeBox>
-
           <View>
-            <HomeBox style={{ marginTop: 60, flexDirection: 'row-reverse' }}>
+            <HomeBox>
               <View>
-                <HomeMainTxt>Valores</HomeMainTxt>
-                <HomeSubtitleTxt>arrecadaos</HomeSubtitleTxt>
+                <HomeMainTxt>Qtd</HomeMainTxt>
+                <HomeSubtitleTxt>doações</HomeSubtitleTxt>
               </View>
-              <></>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <HomeTxtValues>300</HomeTxtValues>
+              </View>
             </HomeBox>
-            <View style={{ alignItems: 'start' }}>
-              <HomeTxtValues>R$ 18.378,32</HomeTxtValues>
+
+            <View>
+              <HomeBox style={{ marginTop: 60, flexDirection: 'row-reverse' }}>
+                <View>
+                  <HomeMainTxt>Valores</HomeMainTxt>
+                  <HomeSubtitleTxt>arrecadaos</HomeSubtitleTxt>
+                </View>
+                <></>
+              </HomeBox>
+              <View style={{ alignItems: 'start' }}>
+                <HomeTxtValues>R$ 18.378,32</HomeTxtValues>
+              </View>
             </View>
+            {
+              modalVisible
+              ?
+              __renderModal()
+              :
+              <></>
+            }
           </View>
-
         </Content>
-
       </Container>
 
       <StatusBar barStyle="dark-content" />
