@@ -53,7 +53,7 @@ export const Link = styled.Text`
 
 
 export const Button = styled.TouchableOpacity`
-  padding: 16px 0;
+  padding: 14px 0;
   width: 100%;
   align-items: center;
   border-radius: 5px;

@@ -12,5 +12,4 @@ export const RegistrationContainer = styled.View`
 
 export const Footer = styled.View`
   background: #fff;
-  border: 1px solid;
 `;

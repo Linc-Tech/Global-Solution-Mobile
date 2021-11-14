@@ -150,11 +150,6 @@ export default function Donations({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: 0.5,
-    padding: 10,
-    fontSize: 14
-  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
