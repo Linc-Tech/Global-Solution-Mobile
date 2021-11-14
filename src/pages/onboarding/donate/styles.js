@@ -20,6 +20,7 @@ export const Title = styled.Text`
   font-size: 18px;
   text-align: center;
   font-weight: 600;
+  margin-bottom: 20px;
 `;
 
 export const Item = styled.View`
