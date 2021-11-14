@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, TextInput, View } from "react-native";
 
 import ComeBackButton from "../../../components/ComeBackButton";
 import { Button, ButtonText, Footer, Form, InputSection, Label, Subtitle, Title } from "../login/styles";
@@ -227,6 +227,8 @@ export default function Registration({ navigation }) {
 
         </ScrollView>
       </Container>
+
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   )
 }

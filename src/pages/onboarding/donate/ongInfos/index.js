@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Modal, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 import ComeBackButton from "../../../../components/ComeBackButton";
 import { Buttons } from "../../initial/styles";
 import { Container, Button, Form, InputSection, Label, ButtonText } from "../../login/styles";
@@ -152,6 +152,8 @@ export default function Ong({ navigation, route }) {
         </Button>
 
       </Container>
+
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   )
 }

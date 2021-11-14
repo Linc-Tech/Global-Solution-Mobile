@@ -144,7 +144,7 @@ export default function Donations({ navigation }) {
           />
       </Container>
 
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
     </View>
   )
 }

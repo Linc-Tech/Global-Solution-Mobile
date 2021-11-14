@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import ComeBackButton from '../../../components/ComeBackButton'
 import { AuthContext } from "../../../context";
@@ -85,6 +85,8 @@ export default function Login({ navigation }) {
           </View>
         </Footer>
       </Container>
+
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 }
