@@ -24,15 +24,19 @@ export const Container = styled.SafeAreaView`
   margin: 15px 30px 15px;
 `;
 
-export const Donation = styled.View`
+export const DonationContainer = styled.View`
+  flex: 1;
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-color: #EEE;
+  margin-bottom: 20px;
+`;
+
+export const Donation = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 22px;
   padding-bottom: 32px;
-  margin-bottom: 20px;
 `;
 
 export const DonatorInfo = styled.View`
@@ -56,4 +60,28 @@ export const DonationText = styled.Text`
 
 export const Value = styled.View`
   justify-content: center;
+`;
+
+export const Buttons = styled.View`
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
+export const Button = styled.TouchableOpacity`
+  margin-left: 20px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+`;
+
+export const BtnText = styled.Text`
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Helvetica';
+  color: #fff;
+`;
+
+export const DonationModalButton = styled.TouchableOpacity`
+  padding: 10px 10px;
+  border-radius: 5px;
 `;
