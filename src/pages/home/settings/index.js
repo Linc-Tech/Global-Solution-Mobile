@@ -236,11 +236,11 @@ export default function Settings({ navigation }) {
     <SafeAreaView  style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ marginTop: 20 }}>
         <Title>
-          Informações da sua ONG
+          Configurações
         </Title>
       </View>
 
-      <Container style={{ marginTop: 0, marginBottom: 0 }}>
+      <Container style={{ marginTop: 10, marginBottom: 0 }}>
         {
           modalVisible
           ?

@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0.5,
     padding: 10,
-    fontSize: 14
+    fontSize: 14,
+    borderRadius: 5,
   },
   centeredView: {
     flex: 1,

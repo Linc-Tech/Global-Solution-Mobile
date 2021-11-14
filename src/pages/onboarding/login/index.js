@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import ComeBackButton from '../../../components/ComeBackButton'
@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context";
 import { Button, ButtonText, Container, CreateAccount, Footer, Form, InputSection, Label, Link, LoginContainer, Subtitle, Title } from "./styles";
 
 export default function Login({ navigation }) {
-  const { signedIn } = React.useContext(AuthContext);
+  const { signedIn } = useContext(AuthContext);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0.5,
     padding: 14,
-    fontSize: 14
+    fontSize: 14,
+    borderRadius: 5,
   }
 })

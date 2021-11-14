@@ -54,7 +54,7 @@ export default function Donate({ navigation }) {
 
         <TitleContainer>
           <Title>
-            Escolhe uma ONG
+            Escolha uma ONG
           </Title>
         </TitleContainer>
       </Header>
