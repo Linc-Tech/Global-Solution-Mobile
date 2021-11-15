@@ -1,0 +1,1 @@
+export const ongs_registrated = 'ongs-registrated';

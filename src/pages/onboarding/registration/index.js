@@ -1,21 +1,76 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, TextInput, View } from "react-native";
+import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, TextInput, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ComeBackButton from "../../../components/ComeBackButton";
 import { Button, ButtonText, Footer, Form, InputSection, Label, Subtitle, Title } from "../login/styles";
 import { Container, RegistrationContainer } from "./styles";
+import { ongs_registrated } from "../../../../constants/storage";
 
 export default function Registration({ navigation }) {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [cnpj, setCnpj] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-  const [siteLink, setSiteLink] = useState();
-  const [text, setText] = useState();
-  const [bank, setBank] = useState();
-  const [agency, setAgency] = useState();
-  const [account, setAccount] = useState();
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [cnpj, setCnpj] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
+  const [siteLink, setSiteLink] = useState(null);
+  const [text, setText] = useState(null);
+  const [bank, setBank] = useState(null);
+  const [agency, setAgency] = useState(null);
+  const [account, setAccount] = useState(null);
+
+  async function registrationHandle() {
+    const form = {
+      name: name,
+      email: email,
+      cnpj: cnpj,
+      password: password,
+      confirmPassword: confirmPassword,
+      siteLink: siteLink,
+      text: text,
+      bank: bank,
+      agency: agency,
+      account: account,
+    };
+
+    let inputIsNull = false;
+    Object.keys(form).forEach(elem => {
+      const value = form[elem];
+      if (value === null) return inputIsNull = true;
+    });
+
+    if (inputIsNull) return Alert.alert('Por favor, insira os valores corretamente');
+
+    await registrateOng(form);
+  }
+
+  async function registrateOng(data) {
+    try {
+      const ongs = await AsyncStorage.getItem(ongs_registrated);
+      const currentData = ongs ? JSON.parse(ongs) : [];
+      let ongExists = false;
+
+      currentData.filter(function(attribute) {
+        if(attribute.cnpj === data.cnpj){
+          ongExists = true;
+          return Alert.alert("Ong já cadastrada");;
+        }
+      });
+
+      if (ongExists) return;
+
+      const dataFormatted = [
+        ...currentData,
+        data
+      ];
+
+      await AsyncStorage.setItem(ongs_registrated, JSON.stringify(dataFormatted));
+
+      return navigation.navigate('Login');
+    } catch (e) {
+      console.error('REGISTRATION \n', e);
+    }
+  }
 
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -219,7 +274,7 @@ export default function Registration({ navigation }) {
 
           <Footer>
             <Button style={{ marginTop: 20, backgroundColor: '#198754' }}
-              onPress={ () => navigation.navigate('Login') }
+              onPress={ () => registrationHandle() }
             >
               <ButtonText>Cadastrar ONG</ButtonText>
             </Button>

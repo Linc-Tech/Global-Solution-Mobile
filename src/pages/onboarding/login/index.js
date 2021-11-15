@@ -7,7 +7,6 @@ import { Button, ButtonText, Container, CreateAccount, Footer, Form, InputSectio
 
 export default function Login({ navigation }) {
   const { signedIn } = useContext(AuthContext);
-
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -78,7 +77,7 @@ export default function Login({ navigation }) {
 
           <View>
             <Button style={{ marginTop: 20, backgroundColor: '#198754' }}
-              onPress={ () => signedIn() }
+              onPress={ () => signedIn(email, password) }
             >
               <ButtonText>Entrar</ButtonText>
             </Button>
