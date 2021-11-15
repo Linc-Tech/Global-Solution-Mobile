@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Modal, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Modal, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
+import { donations_registrated } from "../../../../../constants/storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import ComeBackButton from "../../../../components/ComeBackButton";
 import { Buttons } from "../../initial/styles";
 import { Container, Button, Form, InputSection, Label, ButtonText } from "../../login/styles";
@@ -8,10 +11,47 @@ import { OngName, InfoField, Bold, Info, BankField, ModalButton, ModalButtonText
 export default function Ong({ navigation, route }) {
   const { ong } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState(null);
+  const [cpf, setCpf] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [value, setValue] = useState(null);
 
-  console.log(ong);
+  function confirmDonationHandle() {
+    const form = {
+      name: name,
+      cpf: cpf,
+      email: email,
+      value: value,
+    };
+
+    let inputIsNull = false;
+    Object.keys(form).forEach(elem => {
+      const value = form[elem];
+      if (value === null) return inputIsNull = true;
+    });
+
+    if (inputIsNull) return Alert.alert('Por favor, insira os valores corretamente');
+
+    registrateDonation(form);
+  }
+
+  async function registrateDonation(data) {
+    try {
+      const donations = await AsyncStorage.getItem(donations_registrated);
+      const currentData = donations ? JSON.parse(donations) : [];
+
+      const dataFormatted = [
+        ...currentData,
+        data
+      ];
+
+      await AsyncStorage.setItem(donations_registrated, JSON.stringify(dataFormatted));
+
+      return setModalVisible(!modalVisible);
+    } catch (e) {
+      console.error('DONATION \n', e);
+    }
+  }
 
   function __renderModal() {
     return(
@@ -35,8 +75,8 @@ export default function Ong({ navigation, route }) {
                     </Label>
                   </View>
                   <TextInput
-                    onChangeText={setEmail}
-                    value={email}
+                    onChangeText={setName}
+                    value={name}
                     autoCapitalize="none"
                     style={styles.input}
                   />
@@ -49,8 +89,8 @@ export default function Ong({ navigation, route }) {
                     </Label>
                   </View>
                   <TextInput
-                    onChangeText={setPassword}
-                    value={password}
+                    onChangeText={setCpf}
+                    value={cpf}
                     autoCapitalize="none"
                     secureTextEntry={true}
                     style={styles.input}
@@ -64,8 +104,8 @@ export default function Ong({ navigation, route }) {
                     </Label>
                   </View>
                   <TextInput
-                    onChangeText={setPassword}
-                    value={password}
+                    onChangeText={setEmail}
+                    value={email}
                     autoCapitalize="none"
                     secureTextEntry={true}
                     style={styles.input}
@@ -79,8 +119,8 @@ export default function Ong({ navigation, route }) {
                     </Label>
                   </View>
                   <TextInput
-                    onChangeText={setPassword}
-                    value={password}
+                    onChangeText={setValue}
+                    value={value}
                     autoCapitalize="none"
                     secureTextEntry={true}
                     style={styles.input}
@@ -89,13 +129,13 @@ export default function Ong({ navigation, route }) {
               </Form>
 
               <Buttons>
-                <ModalButton style={{ marginTop: 20, backgroundColor: '#198754' }}
-                  onPress={() => setModalVisible(!modalVisible) }
+                <ModalButton style={{ marginTop: 30, backgroundColor: '#198754' }}
+                  onPress={() => confirmDonationHandle() }
                 >
                   <ModalButtonText>Enviar</ModalButtonText>
                 </ModalButton>
 
-                <ModalButton style={{ marginTop: 20, backgroundColor: '#FF5959' }}
+                <ModalButton style={{ marginTop: 10, backgroundColor: '#FF5959' }}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
                   <ModalButtonText>Cancelar</ModalButtonText>
@@ -116,7 +156,7 @@ export default function Ong({ navigation, route }) {
         />
 
         <View style={{ flex: 1, marginTop: 20 }}>
-          <OngName>{ong.title}</OngName>
+          <OngName>{ong.name}</OngName>
 
           <InfoField>
             <Bold>CNPJ</Bold>
@@ -129,15 +169,15 @@ export default function Ong({ navigation, route }) {
           </InfoField>
 
           <View>
-            <Bold>Banco Bradesco</Bold>
+            <Bold>{ong.bank}</Bold>
             <BankField>
               <InfoField>
                 <Info style={{ marginBottom: 5 }}>Agencia</Info>
-                <Info>{ong.bank.agency}</Info>
+                <Info>{ong.agency}</Info>
               </InfoField>
               <InfoField>
                 <Info style={{ marginBottom: 5 }}>Conta</Info>
-                <Info>{ong.bank.account}</Info>
+                <Info>{ong.account}</Info>
               </InfoField>
             </BankField>
           </View>

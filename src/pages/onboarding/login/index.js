@@ -1,14 +1,43 @@
 import React, { useContext, useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ComeBackButton from '../../../components/ComeBackButton'
 import { AuthContext } from "../../../context";
 import { Button, ButtonText, Container, CreateAccount, Footer, Form, InputSection, Label, Link, LoginContainer, Subtitle, Title } from "./styles";
+import { ongs_registrated } from "../../../../constants/storage";
 
 export default function Login({ navigation }) {
-  const { signedIn } = useContext(AuthContext);
+  const { signOngIn } = useContext(AuthContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  async function loginHande(email, password) {
+    if (!email || !password)
+      return Alert.alert('Por favor, insira os valores corretamente');
+
+    try {
+      const ongs = JSON.parse(await AsyncStorage.getItem(ongs_registrated));
+      let invalidLogin = false;
+
+      const individualOng = ongs.filter((attr) => {
+        if (attr.email == email && attr.password == password) {
+          invalidLogin = false;
+          return attr;
+        } else {
+          invalidLogin = true;
+          return;
+        }
+      });
+
+      if (invalidLogin) return Alert.alert('Dados inválidos');
+
+      signOngIn(individualOng[0]);
+    } catch(e) {
+      console.error('LOGIN', e);
+    }
+
+  }
 
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -77,7 +106,7 @@ export default function Login({ navigation }) {
 
           <View>
             <Button style={{ marginTop: 20, backgroundColor: '#198754' }}
-              onPress={ () => signedIn(email, password) }
+              onPress={ () => loginHande(email, password) }
             >
               <ButtonText>Entrar</ButtonText>
             </Button>

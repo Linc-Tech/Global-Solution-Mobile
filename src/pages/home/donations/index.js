@@ -123,10 +123,10 @@ export default function Donations({ navigation }) {
       </View>
 
       <TitleContainer>
-          <Title>
-            Doações
-          </Title>
-        </TitleContainer>
+        <Title>
+          Doações
+        </Title>
+      </TitleContainer>
 
       <Container>
         {

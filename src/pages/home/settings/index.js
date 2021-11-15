@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
-import ComeBackButton from '../../../components/ComeBackButton';
 import { ModalButtonText } from '../../onboarding/donate/ongInfos/styles';
 import { Button, ButtonText, Form, InputSection, Label } from '../../onboarding/login/styles';
 import { Container, Footer, RegistrationContainer } from '../../onboarding/registration/styles';
-import { Background, DonationModalButton, Title, TitleContainer } from '../donations/styles';
+import { DonationModalButton, Title } from '../donations/styles';
 
 export default function Settings({ navigation }) {
   const [name, setName] = useState("DoeFácil");

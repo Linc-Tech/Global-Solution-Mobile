@@ -5,6 +5,7 @@ import StackNavigation from './src/navigation/stack';
 import TabNavigation from './src/navigation/tab';
 import { AuthContext } from './src/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ong_login } from './constants/storage';
 
 export default function App() {
   const initialLoginState = {
@@ -46,22 +47,20 @@ export default function App() {
   const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
 
   const authContext = useMemo(() => ({
-    signedIn: async (username, password) => {
-      let userToken = null;
+    signOngIn: async (foundUser) => {
+      try {
+        const userToken = uuid();
+        const id = foundUser.email;
+        await AsyncStorage.setItem(ong_login, userToken);
 
-      if (username == 'galusilva' && password == '123') {
-        try {
-          userToken = uuid();
-          await AsyncStorage.setItem('user-token', userToken);
-          return dispatch({ type: 'LOGIN', id: username, token: userToken });
-        } catch(e) {
-          console.error(e);
-        }
+        return dispatch({ type: 'LOGIN', id: id, token: userToken });
+      } catch(e) {
+        console.error('LOGIN AUTH CONTEXT', e);
       }
     },
-    signedOut: async () => {
+    signOngOut: async () => {
       try {
-        await AsyncStorage.removeItem('user-token');
+        await AsyncStorage.removeItem(ong_login);
         return dispatch({ type: 'LOGOUT' });
       } catch(e) {
         console.error(e);
@@ -72,7 +71,7 @@ export default function App() {
   useEffect(async () => {
     let userToken = null;
     try {
-      userToken = await AsyncStorage.getItem('user-token');
+      userToken = await AsyncStorage.getItem(ong_login);
     } catch(e) {
       console.error(e);
     }

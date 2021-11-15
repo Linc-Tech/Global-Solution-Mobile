@@ -6,7 +6,7 @@ import { Container, DonationModalButton } from "./donations/styles";
 import { BtnSignOut, Content, HomeBox, HomeMainTxt, HomeSubtitleTxt, HomeTxtValues, SignOutTxt, Welcome } from "./styles";
 
 export default function Home({ navigation }) {
-  const { signedOut } = useContext(AuthContext);
+  const { signOngOut } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
 
   function __renderModal() {
@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <DonationModalButton style={{ marginTop: 20, backgroundColor: '#198754' }}
-                  onPress={() => signedOut() }
+                  onPress={() => signOngOut() }
                 >
                   <ModalButtonText>Confirmar</ModalButtonText>
                 </DonationModalButton>

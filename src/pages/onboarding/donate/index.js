@@ -1,72 +1,32 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import ComeBackButton from "../../../components/ComeBackButton";
 import { Container } from "../login/styles";
-import { Background, Button, ButtonText, Header, Item, ItemFooter, OngName, TextField, Title, TitleContainer } from "./styles";
+import { Background, BackgroundContainer, Button, ButtonText, ComeBackButtonBackground, ComeBackButtonContainer, ComeBackButtonCover, Header, Item, ItemFooter, OngName, TextField, Title, TitleContainer } from "./styles";
+import { ongs_registrated } from "../../../../constants/storage";
+import { useFocusEffect } from "@react-navigation/core";
+import icons from "../../../../constants/icons";
 
 export default function Donate({ navigation }) {
-  const arr = [
-    {
-      id: 1,
-      cnpj: '1234567/1030-87',
-      email: 'ong@gmail.com',
-      bank: {
-        agency: '0000',
-        account: '00000-00',
-      },
-      title: 'DoaFácil',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
-      donationsQuantify: 200,
-    },
-    {
-      id: 2,
-      cnpj: '1234567/1030-87',
-      email: 'ong@gmail.com',
-      bank: {
-        agency: '0000',
-        account: '00000-00',
-      },
-      title: 'DoaFácil',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
-      donationsQuantify: 200,
-    },
-    {
-      id: 3,
-      cnpj: '1234567/1030-87',
-      email: 'ong@gmail.com',
-      bank: {
-        agency: '0000',
-        account: '00000-00',
-      },
-      title: 'DoaFácil',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et velit in libero vulputate ultrices nec non dolor. Sed fringilla magna varius est volutpat, sit amet aliquam tortor ornare. Duis dictum rhoncus purus vel tempus. Etiam varius est sed massa maximus vehicula. Nunc vestibulum id turpis non eleifend.',
-      donationsQuantify: 200,
-    }
-  ];
+  const [ongs, setOngs] = useState([]);
 
+  useFocusEffect(useCallback(() => {
+    const fetchOngs = async () => {
+      const ongs = await AsyncStorage.getItem(ongs_registrated);
+      setOngs(JSON.parse(ongs));
+    };
 
-  function __renderScreenHeader() {
-    return(
-      <Header>
-        <ComeBackButton
-          navigation={navigation}
-        />
-
-        <TitleContainer>
-          <Title>
-            Escolha uma ONG
-          </Title>
-        </TitleContainer>
-      </Header>
-    )
-  }
+    fetchOngs();
+  }, []));
 
   function __renderItem({ item }) {
     return(
       <Item>
         <TextField>
           <OngName>
-            {item.title}
+            {item.name}
           </OngName>
           <Text
             numberOfLines={8}
@@ -87,23 +47,55 @@ export default function Donate({ navigation }) {
     )
   }
 
-  return(
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <Background />
-      <Container>
-        {__renderScreenHeader()}
-
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={arr}
-            renderItem={__renderItem}
-            keyExtractor={ item => item.id }
-            // ListHeaderComponent={__renderScreenHeader}
-            showsVerticalScrollIndicator={false}
+  const __renderComeBackButton = () => {
+    return(
+      <ComeBackButtonContainer opacity={0.5}>
+        <ComeBackButtonCover
+          style={{ transform: [{ rotate: "180deg" }] }}
+          onPress={() => navigation.goBack() }
+        >
+          <ComeBackButtonBackground
+            source={icons.arrow}
           />
-        </View>
+        </ComeBackButtonCover>
+      </ComeBackButtonContainer>
+    );
+  }
 
-      </Container>
-    </SafeAreaView>
+  return(
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <BackgroundContainer>
+        {__renderComeBackButton()}
+        <Background />
+      </BackgroundContainer>
+
+      <TitleContainer>
+        <Title>
+          Selecione a ONG que deseja doar
+        </Title>
+      </TitleContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Container>
+          <View style={{ flex: 1 }}>
+            {
+              ongs ?
+              <FlatList
+                data={ongs}
+                renderItem={__renderItem}
+                keyExtractor={ item => item.cnpj }
+                showsVerticalScrollIndicator={false}
+              />
+              :
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ textAlign: 'center', fontFamily: 'Helvetica', fontSize: 16, color: '#198754'}}>
+                  Ainda não possuímos ONGs cadastradas para você doar...
+                </Text>
+              </View>
+            }
+          </View>
+
+        </Container>
+      </SafeAreaView>
+    </View>
   );
 }
