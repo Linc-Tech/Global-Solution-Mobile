@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, Modal, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 import { donations_registrated } from "../../../../../constants/storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { v4 as uuid } from "uuid";
 
 import ComeBackButton from "../../../../components/ComeBackButton";
 import { Buttons } from "../../initial/styles";
@@ -11,23 +12,25 @@ import { OngName, InfoField, Bold, Info, BankField, ModalButton, ModalButtonText
 export default function Ong({ navigation, route }) {
   const { ong } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState(null);
-  const [cpf, setCpf] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [value, setValue] = useState(null);
+  const [name, setName] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [email, setEmail] = useState('');
+  const [value, setValue] = useState('');
 
   function confirmDonationHandle() {
     const form = {
+      id: uuid(),
       name: name,
       cpf: cpf,
       email: email,
       value: value,
+      ongEmail: ong.email,
     };
 
     let inputIsNull = false;
     Object.keys(form).forEach(elem => {
       const value = form[elem];
-      if (value === null) return inputIsNull = true;
+      if (!value) return inputIsNull = true;
     });
 
     if (inputIsNull) return Alert.alert('Por favor, insira os valores corretamente');
@@ -46,7 +49,6 @@ export default function Ong({ navigation, route }) {
       ];
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(dataFormatted));
-
       return setModalVisible(!modalVisible);
     } catch (e) {
       console.error('DONATION \n', e);
@@ -92,7 +94,6 @@ export default function Ong({ navigation, route }) {
                     onChangeText={setCpf}
                     value={cpf}
                     autoCapitalize="none"
-                    secureTextEntry={true}
                     style={styles.input}
                   />
                 </InputSection>
@@ -107,7 +108,6 @@ export default function Ong({ navigation, route }) {
                     onChangeText={setEmail}
                     value={email}
                     autoCapitalize="none"
-                    secureTextEntry={true}
                     style={styles.input}
                   />
                 </InputSection>
@@ -122,7 +122,6 @@ export default function Ong({ navigation, route }) {
                     onChangeText={setValue}
                     value={value}
                     autoCapitalize="none"
-                    secureTextEntry={true}
                     style={styles.input}
                   />
                 </InputSection>

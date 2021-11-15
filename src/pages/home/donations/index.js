@@ -1,40 +1,82 @@
-import React, { useState } from 'react';
-import { FlatList, Modal, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { ModalButton, ModalButtonText } from '../../onboarding/donate/ongInfos/styles';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, Modal, StatusBar, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { ModalButtonText } from '../../onboarding/donate/ongInfos/styles';
 import { Background, Box, BtnText, Button, Buttons, Container, Donation, DonationContainer, DonationModalButton, DonationText, DonationTitle, DonatorInfo, ModalButtons, Title, TitleContainer, Value } from './styles';
+import { donations_registrated } from '../../../../constants/storage';
+import { useFocusEffect } from '@react-navigation/core';
+import { AuthContext } from '../../../context';
+import { EMAIL } from '../../../../App';
 
 export default function Donations({ navigation }) {
+  const { signedIn } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const arr = [
-    {
-      id: 1,
-      donator: 'Gabriel Lucas Alves da Silva',
-      cpf: '503.481.888-46',
-      email: 'gabriel@gmail.com',
-      value: 4000,
-    },
-    {
-      id: 2,
-      donator: 'Gabriel Lucas Alves da Silva',
-      cpf: '503.481.888-46',
-      email: 'gabriel@gmail.com',
-      value: 4000,
-    },
-    {
-      id: 3,
-      donator: 'Gabriel Lucas Alves da Silva',
-      cpf: '503.481.888-46',
-      email: 'gabriel@gmail.com',
-      value: 4000,
-    },
-    {
-      id: 4,
-      donator: 'Gabriel Lucas Alves da Silva',
-      cpf: '503.481.888-46',
-      email: 'gabriel@gmail.com',
-      value: 4000,
-    },
-  ];
+  const [getDonations, setDonations] = useState([]);
+  const [ongId, setOngId] = useState();
+
+  console.log(getDonations);
+
+  // useFocusEffect(useCallback(() => {
+  //   const { email } = signedIn();
+
+  //   const fetchOngs = async () => {
+  //     const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
+  //     const currentDonations = donations ? donations : [];
+
+  //     const ongDonations = currentDonations.filter(attr => {
+  //       if (attr.ongEmail === email) {
+  //         return attr;
+  //       }
+  //     });
+
+  //     setDonations(ongDonations);
+  //   };
+
+  //   fetchOngs();
+  // }, [navigation]));
+
+  useEffect(() => {
+
+    const fetchOngs = async () => {
+      const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
+      const currentDonations = donations ? donations : [];
+
+      const ongDonations = currentDonations.filter(attr => {
+        console.log("CHAMEI1111", attr, EMAIL);
+        if (attr.ongEmail === EMAIL) {
+          return attr;
+        }
+      });
+
+      console.log("CHAMEI222", ongDonations);
+
+      setDonations(ongDonations);
+    };
+
+    fetchOngs();
+    console.log("CHAMEI", getDonations);
+  }, [navigation])
+
+  async function declineDonationHandle() {
+    try {
+      const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
+      const currentDonations = donations ? donations : [];
+
+      if (!currentDonations) return;
+
+      const ongDonationsUpdated = currentDonations.filter(attr => {
+        return attr.id !== ongId;
+      });
+
+      await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
+      setModalVisible(!modalVisible);
+    } catch(e) {
+      console.error('DONATIONS', e);
+    }
+
+    return setModalVisible(!modalVisible);
+  }
 
   function __renderModal() {
     return(
@@ -52,7 +94,7 @@ export default function Donations({ navigation }) {
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <DonationModalButton style={{ marginTop: 20, backgroundColor: '#198754' }}
-                  onPress={() => setModalVisible(!modalVisible) }
+                  onPress={() => declineDonationHandle() }
                 >
                   <ModalButtonText>Confirmar</ModalButtonText>
                 </DonationModalButton>
@@ -77,7 +119,7 @@ export default function Donations({ navigation }) {
           <DonatorInfo>
             <Box>
               <DonationTitle>Doador</DonationTitle>
-              <DonationText>{item.donator}</DonationText>
+              <DonationText>{item.name}</DonationText>
             </Box>
 
             <Box>
@@ -107,7 +149,10 @@ export default function Donations({ navigation }) {
           </Button>
 
           <Button style={{ backgroundColor: '#FF5959' }}
-            onPress={ () => setModalVisible(!modalVisible) }
+            onPress={ () => {
+              setOngId(item.id);
+              setModalVisible(!modalVisible);
+            }}
           >
             <BtnText>Declinar</BtnText>
           </Button>
@@ -137,7 +182,7 @@ export default function Donations({ navigation }) {
           <></>
         }
         <FlatList
-            data={arr}
+            data={getDonations}
             renderItem={__renderDonation}
             keyExtractor={ item => item.id }
             showsVerticalScrollIndicator={false}

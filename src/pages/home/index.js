@@ -1,13 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Modal, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "../../context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { ModalButtonText } from "../onboarding/donate/ongInfos/styles";
 import { Container, DonationModalButton } from "./donations/styles";
 import { BtnSignOut, Content, HomeBox, HomeMainTxt, HomeSubtitleTxt, HomeTxtValues, SignOutTxt, Welcome } from "./styles";
+import { ongs_registrated } from "../../../constants/storage.js";
+import { useFocusEffect } from "@react-navigation/core";
 
-export default function Home({ navigation }) {
-  const { signOngOut } = useContext(AuthContext);
+export default function Home() {
+  const { signOngOut, signedIn } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [donations, setDonations] = useState(0);
+  const [collections, setCollections] = useState(0);
+
+  useFocusEffect(useCallback(() => {
+    const fetchOng = async () => {
+      const email = await signedIn();
+      const ongs = JSON.parse(await AsyncStorage.getItem(ongs_registrated));
+      const individualOng = ongs.filter((attr) => {
+        if (attr.email === email) {
+          return attr;
+        }
+      });
+
+      console.log(individualOng);
+    }
+
+    fetchOng();
+
+  }, []));
 
   function __renderModal() {
     return(

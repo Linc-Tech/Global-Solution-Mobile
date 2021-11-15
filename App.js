@@ -13,6 +13,14 @@ export default function App() {
     userToken: null,
   };
 
+  async function storageEmail(email) {
+    try {
+      await AsyncStorage.setItem('email', email);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const loginReducer = (prevState, action) => {
     switch(action.type) {
       case 'RETRIVIEVE_TOKEN':
@@ -22,6 +30,8 @@ export default function App() {
         };
 
       case 'LOGIN':
+        storageEmail(action.id);
+
         return {
           ...prevState,
           userName: action.id,
@@ -65,7 +75,14 @@ export default function App() {
       } catch(e) {
         console.error(e);
       }
-    }
+    },
+    signedIn: async () => {
+      try {
+        return await AsyncStorage.getItem('email');
+      } catch(e) {
+        console.error(e);
+      }
+    },
   }), []);
 
   useEffect(async () => {
