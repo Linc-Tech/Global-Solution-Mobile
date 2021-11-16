@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import ComeBackButton from "../../../components/ComeBackButton";
 import { Container } from "../login/styles";
 import { Background, BackgroundContainer, Button, ButtonText, ComeBackButtonBackground, ComeBackButtonContainer, ComeBackButtonCover, Header, Item, ItemFooter, OngName, TextField, Title, TitleContainer } from "./styles";
 import { ongs_registrated } from "../../../../constants/storage";

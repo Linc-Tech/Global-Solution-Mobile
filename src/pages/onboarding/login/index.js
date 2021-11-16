@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  async function loginHande(email, password) {
+  async function loginHandle(email, password) {
     if (!email || !password)
       return Alert.alert('Por favor, insira os valores corretamente');
 
@@ -36,7 +36,6 @@ export default function Login({ navigation }) {
     } catch(e) {
       console.error('LOGIN', e);
     }
-
   }
 
   return(
@@ -106,7 +105,7 @@ export default function Login({ navigation }) {
 
           <View>
             <Button style={{ marginTop: 20, backgroundColor: '#198754' }}
-              onPress={ () => loginHande(email, password) }
+              onPress={ () => loginHandle(email, password) }
             >
               <ButtonText>Entrar</ButtonText>
             </Button>
