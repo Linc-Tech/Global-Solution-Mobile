@@ -18,13 +18,12 @@ export default function Login({ navigation }) {
 
     try {
       const ongs = JSON.parse(await AsyncStorage.getItem(ongs_registrated));
-      let invalidLogin = false;
 
       const individualOng = ongs.filter((attr) => {
         return attr.email == email && attr.password == password;
       });
 
-      if (invalidLogin) return Alert.alert('Dados inválidos');
+      if (individualOng.length === 0) return Alert.alert('Dados inválidos');
 
       signOngIn(individualOng[0]);
     } catch(e) {
