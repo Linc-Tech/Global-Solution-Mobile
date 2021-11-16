@@ -8,7 +8,7 @@ import { Button, ButtonText, Container, CreateAccount, Footer, Form, InputSectio
 import { ongs_registrated } from "../../../../constants/storage";
 
 export default function Login({ navigation }) {
-  const { signOngIn, signedIn } = useContext(AuthContext);
+  const { signOngIn } = useContext(AuthContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 

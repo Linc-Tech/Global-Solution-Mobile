@@ -1,11 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect, useMemo, useReducer, useState } from 'react';
-import { v4 as uuid } from 'uuid';
-import StackNavigation from './src/navigation/stack';
-import TabNavigation from './src/navigation/tab';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import { AuthContext } from './src/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ong_login } from './constants/storage';
+import { v4 as uuid } from 'uuid';
+
+import StackNavigation from './src/navigation/stack';
+import TabNavigation from './src/navigation/tab';
 
 export default function App() {
   const initialLoginState = {
