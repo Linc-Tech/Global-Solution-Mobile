@@ -21,13 +21,7 @@ export default function Login({ navigation }) {
       let invalidLogin = false;
 
       const individualOng = ongs.filter((attr) => {
-        if (attr.email == email && attr.password == password) {
-          invalidLogin = false;
-          return attr;
-        } else {
-          invalidLogin = true;
-          return;
-        }
+        return attr.email == email && attr.password == password;
       });
 
       if (invalidLogin) return Alert.alert('Dados inválidos');
