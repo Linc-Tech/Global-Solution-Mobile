@@ -31,16 +31,21 @@ export default function Home() {
       const donationsConfirmed = JSON.parse(await AsyncStorage.getItem(donations_confirmed));
       const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
 
-      console.log(donationsConfirmed);
+      const thisOngDonations = currentConfirmedDonations.filter(attr => {
+        console.log(email, attr.ongEmail);
+        return attr.ongEmail === email;
+      });
 
-      if (!currentConfirmedDonations) return;
+      if (thisOngDonations.length === 0) return;
 
       let donations = 0;
       let collections = 0;
-      currentConfirmedDonations.map(donation => {
-        collections += donation.value;
+      thisOngDonations.map(donation => {
+        collections += parseInt(donation.value);
         donations++;
       });
+
+      console.log('HELLO', donations, collections);
 
       setCollections(collections);
       setDonations(donations);
