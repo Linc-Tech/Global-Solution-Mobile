@@ -60,9 +60,15 @@ export default function Donations({ navigation }) {
       ];
 
       await AsyncStorage.setItem(donations_confirmed, JSON.stringify(donationsInfoToSave));
-      declineDonationHandle();
-      setConfirmModalVisible(!confirmModalVisible);
-      setDeclineModalVisible(!declineModalVisible);
+
+
+      const ongDonationsUpdated = currentDonations.filter(attr => {
+        return attr.id !== ongId;
+      });
+
+      await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
+
+      setConfirmModalVisible(false);
     } catch (e) {
       console.error('DONATIONS', e);
     }
@@ -229,21 +235,32 @@ export default function Donations({ navigation }) {
           ?
           __renderConfirmModal()
           :
-          <></>
+          <View></View>
         }
         {
           declineModalVisible
           ?
           __renderDeclineModal()
           :
-          <></>
+          <View></View>
         }
-        <FlatList
-          data={getDonations}
-          renderItem={__renderDonation}
-          keyExtractor={ item => item.id }
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={{ height: '100%' }}>
+          {
+            getDonations.length !== 0 ?
+            (<FlatList
+              data={getDonations}
+              renderItem={__renderDonation}
+              keyExtractor={ item => item.id }
+              showsVerticalScrollIndicator={false}
+            />)
+            :
+            (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'  }}>
+              <Text style={{ textAlign: 'center', fontFamily: 'Helvetica', fontSize: 16, color: '#198754', lineHeight: 24 }}>
+                Você ainda não recebeu nenhuma confirmação de doação...
+              </Text>
+            </View>)
+          }
+        </View>
       </Container>
 
       <StatusBar barStyle="light-content" />
