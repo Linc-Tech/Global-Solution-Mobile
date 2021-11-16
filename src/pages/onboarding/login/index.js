@@ -19,6 +19,8 @@ export default function Login({ navigation }) {
     try {
       const ongs = JSON.parse(await AsyncStorage.getItem(ongs_registrated));
 
+      if (ongs === null) return Alert.alert('Dados inválidos');
+
       const individualOng = ongs.filter((attr) => {
         return attr.email == email && attr.password == password;
       });

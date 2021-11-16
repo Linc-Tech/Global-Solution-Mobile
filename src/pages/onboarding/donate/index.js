@@ -4,13 +4,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Container } from "../login/styles";
 import { Background, BackgroundContainer, Button, ButtonText, ComeBackButtonBackground, ComeBackButtonContainer, ComeBackButtonCover, Header, Item, ItemFooter, OngName, TextField, Title, TitleContainer } from "./styles";
-import { donations_confirmed, ongs_registrated } from "../../../../constants/storage";
+import { ongs_registrated } from "../../../../constants/storage";
 import { useFocusEffect } from "@react-navigation/core";
 import icons from "../../../../constants/icons";
 
 export default function Donate({ navigation }) {
   const [ongs, setOngs] = useState([]);
   const [donationsQuantify, setDonationsQuantify] = useState(0);
+  console.log(ongs);
 
   useFocusEffect(useCallback(() => {
     const fetchOngs = async () => {

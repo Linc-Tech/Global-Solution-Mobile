@@ -3,6 +3,8 @@ import { Alert, Modal, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, Vie
 import { donations_registrated } from "../../../../../constants/storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v4 as uuid } from "uuid";
+import { TextInputMask } from 'react-native-masked-text'
+
 
 import ComeBackButton from "../../../../components/ComeBackButton";
 import { Buttons } from "../../initial/styles";
@@ -49,7 +51,7 @@ export default function Ong({ navigation, route }) {
       ];
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(dataFormatted));
-      return setModalVisible(!modalVisible);
+      return navigation.navigate('Donate');;
     } catch (e) {
       console.error('DONATION \n', e);
     }
@@ -90,10 +92,10 @@ export default function Ong({ navigation, route }) {
                       CPF
                     </Label>
                   </View>
-                  <TextInput
-                    onChangeText={setCpf}
+                  <TextInputMask
+                    type={'cpf'}
                     value={cpf}
-                    autoCapitalize="none"
+                    onChangeText={setCpf}
                     style={styles.input}
                   />
                 </InputSection>
@@ -118,10 +120,17 @@ export default function Ong({ navigation, route }) {
                       Valor
                     </Label>
                   </View>
-                  <TextInput
-                    onChangeText={setValue}
+                  <TextInputMask
+                    type={'money'}
+                    options={{
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$',
+                      suffixUnit: ''
+                    }}
                     value={value}
-                    autoCapitalize="none"
+                    onChangeText={setValue}
                     style={styles.input}
                   />
                 </InputSection>
