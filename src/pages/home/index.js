@@ -32,7 +32,6 @@ export default function Home() {
       const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
 
       const thisOngDonations = currentConfirmedDonations.filter(attr => {
-        console.log(email, attr.ongEmail);
         return attr.ongEmail === email;
       });
 
@@ -44,8 +43,6 @@ export default function Home() {
         collections += parseInt(donation.value);
         donations++;
       });
-
-      console.log('HELLO', donations, collections);
 
       setCollections(collections);
       setDonations(donations);

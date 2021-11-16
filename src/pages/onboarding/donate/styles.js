@@ -61,7 +61,7 @@ export const TextField = styled.View``;
 
 export const ItemFooter = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: 30px;
 `;
