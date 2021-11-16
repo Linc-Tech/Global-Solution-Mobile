@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ModalButtonText } from "../onboarding/donate/ongInfos/styles";
 import { Container, DonationModalButton } from "./donations/styles";
 import { BtnSignOut, Content, HomeBox, HomeMainTxt, HomeSubtitleTxt, HomeTxtValues, SignOutTxt, Welcome } from "./styles";
-import { ongs_registrated } from "../../../constants/storage.js";
+import { donations_confirmed, ongs_registrated } from "../../../constants/storage.js";
 import { useFocusEffect } from "@react-navigation/core";
 
 export default function Home() {
@@ -14,6 +14,7 @@ export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [donations, setDonations] = useState(0);
   const [collections, setCollections] = useState(0);
+  const [name, setName] = useState();
 
   useFocusEffect(useCallback(() => {
     const fetchOng = async () => {
@@ -25,7 +26,24 @@ export default function Home() {
         }
       });
 
-      console.log(individualOng);
+      setName(individualOng[0].name);
+
+      const donationsConfirmed = JSON.parse(await AsyncStorage.getItem(donations_confirmed));
+      const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
+
+      console.log(donationsConfirmed);
+
+      if (!currentConfirmedDonations) return;
+
+      let donations = 0;
+      let collections = 0;
+      currentConfirmedDonations.map(donation => {
+        collections += donation.value;
+        donations++;
+      });
+
+      setCollections(collections);
+      setDonations(donations);
     }
 
     fetchOng();
@@ -71,7 +89,7 @@ export default function Home() {
     <SafeAreaView  style={{ flex: 1, backgroundColor: 'white' }}>
       <Container style={{ marginTop: 20 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Welcome numberOfLines={1}>Seja bem-vinde, DoeFácil</Welcome>
+          <Welcome numberOfLines={1}>Seja bem-vinde, {name}</Welcome>
           <BtnSignOut onPress={ () => setModalVisible(!modalVisible) }>
             <SignOutTxt>Sair</SignOutTxt>
           </BtnSignOut>
@@ -85,7 +103,7 @@ export default function Home() {
                 <HomeSubtitleTxt>doações</HomeSubtitleTxt>
               </View>
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <HomeTxtValues>300</HomeTxtValues>
+                <HomeTxtValues>{donations}</HomeTxtValues>
               </View>
             </HomeBox>
 
@@ -98,7 +116,8 @@ export default function Home() {
                 <></>
               </HomeBox>
               <View style={{ alignItems: 'start' }}>
-                <HomeTxtValues>R$ 18.378,32</HomeTxtValues>
+                {/* <HomeTxtValues>R$ 18.378,32</HomeTxtValues> */}
+                <HomeTxtValues>R$ {collections}</HomeTxtValues>
               </View>
             </View>
             {

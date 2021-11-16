@@ -1,62 +1,72 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { FlatList, Modal, StatusBar, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ModalButtonText } from '../../onboarding/donate/ongInfos/styles';
 import { Background, Box, BtnText, Button, Buttons, Container, Donation, DonationContainer, DonationModalButton, DonationText, DonationTitle, DonatorInfo, ModalButtons, Title, TitleContainer, Value } from './styles';
-import { donations_registrated } from '../../../../constants/storage';
+import { donations_confirmed, donations_registrated } from '../../../../constants/storage';
 import { useFocusEffect } from '@react-navigation/core';
 import { AuthContext } from '../../../context';
-import { EMAIL } from '../../../../App';
 
 export default function Donations({ navigation }) {
   const { signedIn } = useContext(AuthContext);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [declineModalVisible, setDeclineModalVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [getDonations, setDonations] = useState([]);
   const [ongId, setOngId] = useState();
 
-  console.log(getDonations);
-
-  // useFocusEffect(useCallback(() => {
-  //   const { email } = signedIn();
-
-  //   const fetchOngs = async () => {
-  //     const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
-  //     const currentDonations = donations ? donations : [];
-
-  //     const ongDonations = currentDonations.filter(attr => {
-  //       if (attr.ongEmail === email) {
-  //         return attr;
-  //       }
-  //     });
-
-  //     setDonations(ongDonations);
-  //   };
-
-  //   fetchOngs();
-  // }, [navigation]));
-
-  useEffect(() => {
-
+  useFocusEffect(useCallback(() => {
     const fetchOngs = async () => {
+      const email = await signedIn();
       const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
       const currentDonations = donations ? donations : [];
 
       const ongDonations = currentDonations.filter(attr => {
-        console.log("CHAMEI1111", attr, EMAIL);
-        if (attr.ongEmail === EMAIL) {
+        if (attr.ongEmail === email) {
           return attr;
         }
       });
-
-      console.log("CHAMEI222", ongDonations);
 
       setDonations(ongDonations);
     };
 
     fetchOngs();
-    console.log("CHAMEI", getDonations);
-  }, [navigation])
+  }, []));
+
+  async function confirmDonationHandle() {
+    try {
+      const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
+      const currentDonations = donations ? donations : [];
+
+      if (!currentDonations) return;
+
+      const donationInfo = currentDonations.filter(attr => {
+        return attr.id === ongId;
+      });
+
+      const donationInfoUpdated = {
+        ...donationInfo[0],
+        donationConfirmed: true,
+      };
+
+      const donationsConfirmed = JSON.parse(await AsyncStorage.getItem(donations_confirmed));
+      const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
+
+      if (!currentConfirmedDonations) return;
+
+      const donationsInfoToSave = [
+        ...currentConfirmedDonations,
+        donationInfoUpdated
+      ];
+
+      await AsyncStorage.setItem(donations_confirmed, JSON.stringify(donationsInfoToSave));
+      declineDonationHandle();
+      setConfirmModalVisible(!confirmModalVisible);
+      setDeclineModalVisible(!declineModalVisible);
+    } catch (e) {
+      console.error('DONATIONS', e);
+    }
+  }
 
   async function declineDonationHandle() {
     try {
@@ -70,21 +80,58 @@ export default function Donations({ navigation }) {
       });
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
-      setModalVisible(!modalVisible);
+
+      setDonations(ongDonationsUpdated);
+      setDeclineModalVisible(!declineModalVisible);
+      return;
     } catch(e) {
       console.error('DONATIONS', e);
     }
 
-    return setModalVisible(!modalVisible);
+    return setModalVisible(!declineModalVisible);
   }
 
-  function __renderModal() {
+  function __renderConfirmModal() {
     return(
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible}
+          visible={confirmModalVisible}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+                Você tem certeza que deseja confirmar essa ação?
+              </Text>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <DonationModalButton style={{ marginTop: 20, backgroundColor: '#198754' }}
+                  onPress={() => confirmDonationHandle() }
+                >
+                  <ModalButtonText>Confirmar</ModalButtonText>
+                </DonationModalButton>
+
+                <DonationModalButton style={{ marginTop: 20, backgroundColor: '#FF5959' }}
+                  onPress={() => setConfirmModalVisible(!confirmModalVisible) }
+                >
+                  <ModalButtonText>Cancelar</ModalButtonText>
+                </DonationModalButton>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    )
+  }
+
+  function __renderDeclineModal() {
+    return(
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={declineModalVisible}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -100,7 +147,7 @@ export default function Donations({ navigation }) {
                 </DonationModalButton>
 
                 <DonationModalButton style={{ marginTop: 20, backgroundColor: '#FF5959' }}
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={() => setDeclineModalVisible(!declineModalVisible) }
                 >
                   <ModalButtonText>Cancelar</ModalButtonText>
                 </DonationModalButton>
@@ -143,7 +190,10 @@ export default function Donations({ navigation }) {
 
         <Buttons>
           <Button style={{ backgroundColor: '#198754' }}
-            onPress={ () => setModalVisible(!modalVisible) }
+            onPress={ () => {
+              setOngId(item.id);
+              setConfirmModalVisible(!confirmModalVisible);
+            }}
           >
             <BtnText>Recebido</BtnText>
           </Button>
@@ -151,7 +201,7 @@ export default function Donations({ navigation }) {
           <Button style={{ backgroundColor: '#FF5959' }}
             onPress={ () => {
               setOngId(item.id);
-              setModalVisible(!modalVisible);
+              setDeclineModalVisible(!declineModalVisible);
             }}
           >
             <BtnText>Declinar</BtnText>
@@ -175,18 +225,25 @@ export default function Donations({ navigation }) {
 
       <Container>
         {
-          modalVisible
+          confirmModalVisible
           ?
-          __renderModal()
+          __renderConfirmModal()
+          :
+          <></>
+        }
+        {
+          declineModalVisible
+          ?
+          __renderDeclineModal()
           :
           <></>
         }
         <FlatList
-            data={getDonations}
-            renderItem={__renderDonation}
-            keyExtractor={ item => item.id }
-            showsVerticalScrollIndicator={false}
-          />
+          data={getDonations}
+          renderItem={__renderDonation}
+          keyExtractor={ item => item.id }
+          showsVerticalScrollIndicator={false}
+        />
       </Container>
 
       <StatusBar barStyle="light-content" />
