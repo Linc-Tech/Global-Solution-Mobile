@@ -11,7 +11,6 @@ import icons from "../../../../constants/icons";
 export default function Donate({ navigation }) {
   const [ongs, setOngs] = useState([]);
   const [donationsQuantify, setDonationsQuantify] = useState(0);
-  console.log(ongs);
 
   useFocusEffect(useCallback(() => {
     const fetchOngs = async () => {

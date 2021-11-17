@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, TextInput, View } from "react-native";
+import { TextInputMask } from 'react-native-masked-text'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ComeBackButton from "../../../components/ComeBackButton";
@@ -8,16 +9,33 @@ import { Container, RegistrationContainer } from "./styles";
 import { ongs_registrated } from "../../../../constants/storage";
 
 export default function Registration({ navigation }) {
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [cnpj, setCnpj] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const [siteLink, setSiteLink] = useState(null);
-  const [text, setText] = useState(null);
-  const [bank, setBank] = useState(null);
-  const [agency, setAgency] = useState(null);
-  const [account, setAccount] = useState(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [siteLink, setSiteLink] = useState('');
+  const [text, setText] = useState('');
+  const [bank, setBank] = useState('');
+  const [agency, setAgency] = useState('');
+  const [account, setAccount] = useState('');
+
+  function inputHandle(value, input) {
+    if (input === 'agency') {
+      if (!!parseInt(value) || parseInt(value) === 0) {
+        return setAgency(value);
+      } else {
+        return setAgency('');
+      }
+
+    } else if (input === 'account') {
+      if (!!parseInt(value) || parseInt(value) === 0) {
+        setAccount(value);
+      } else {
+        return setAccount('');
+      }
+    }
+  }
 
   async function registrationHandle() {
     const form = {
@@ -36,10 +54,14 @@ export default function Registration({ navigation }) {
     let inputIsNull = false;
     Object.keys(form).forEach(elem => {
       const value = form[elem];
-      if (value === null) return inputIsNull = true;
+      if (!value) return inputIsNull = true;
     });
 
-    if (inputIsNull) return Alert.alert('Por favor, insira os valores corretamente');
+    if (inputIsNull)
+      return Alert.alert('Por favor, insira os valores corretamente');
+
+    if (form.password !== form.confirmPassword)
+      return  Alert.alert('As senhas estão diferentes');
 
     await registrateOng(form);
   }
@@ -135,10 +157,10 @@ export default function Registration({ navigation }) {
                     CNPJ
                   </Label>
                 </View>
-                <TextInput
-                  onChangeText={setCnpj}
+                <TextInputMask
+                  type={'cnpj'}
                   value={cnpj}
-                  autoCapitalize="none"
+                  onChangeText={setCnpj}
                   style={styles.input}
                   placeholder="57.847.883/0001-97"
                 />
@@ -245,11 +267,12 @@ export default function Registration({ navigation }) {
                   </Label>
                 </View>
                 <TextInput
-                  onChangeText={setAgency}
+                  onChangeText={value => inputHandle(value, 'agency')}
                   value={agency}
                   autoCapitalize="none"
                   style={styles.input}
                   placeholder="0000"
+                  maxLength={4}
                 />
               </InputSection>
 
@@ -262,11 +285,12 @@ export default function Registration({ navigation }) {
                   </Label>
                 </View>
                 <TextInput
-                  onChangeText={setAccount}
+                  onChangeText={value => inputHandle(value, 'account')}
                   value={account}
                   autoCapitalize="none"
                   style={styles.input}
-                  placeholder="00000-0"
+                  placeholder="0000000-0"
+                  maxLength={9}
                 />
               </InputSection>
             </Form>
