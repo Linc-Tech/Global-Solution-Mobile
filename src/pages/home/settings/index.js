@@ -134,6 +134,7 @@ export default function Settings({ navigation }) {
 
   async function deleteAccountHandle() {
     try {
+      // Delete Ong
       const ongs = JSON.parse(await AsyncStorage.getItem(ongs_registrated));
       const currentOngs = ongs ? ongs : [];
 
@@ -145,7 +146,7 @@ export default function Settings({ navigation }) {
 
       await AsyncStorage.setItem(ongs_registrated, JSON.stringify(ongsUpdated));
 
-      // Delete Donations
+      // Delete Ong's Donations
       const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
       const currentDonations = donations ? donations : [];
 
@@ -157,7 +158,7 @@ export default function Settings({ navigation }) {
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
 
-      // Delete Confirmed Donations
+      // Delete Ong's Confirmed Donations
       const donationsConfirmed = JSON.parse(await AsyncStorage.getItem(donations_confirmed));
       const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
 

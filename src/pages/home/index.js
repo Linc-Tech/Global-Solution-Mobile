@@ -118,7 +118,6 @@ export default function Home() {
                 <></>
               </HomeBox>
               <View style={{ alignItems: 'start' }}>
-                {/* <HomeTxtValues>R$ 18.378,32</HomeTxtValues> */}
                 <HomeTxtValues>R$ {collections}</HomeTxtValues>
               </View>
             </View>
