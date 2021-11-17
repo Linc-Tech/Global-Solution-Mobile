@@ -271,13 +271,15 @@ export default function Settings({ navigation }) {
               Email
             </Label>
           </View>
-          <TextInput
-            onChangeText={setEmail}
-            value={email}
-            autoCapitalize="none"
-            style={styles.input}
-            placeholder={email}
-          />
+          <View pointerEvents="none">
+            <TextInput
+              onChangeText={setEmail}
+              value={email}
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder={email}
+            />
+          </View>
         </InputSection>
 
 
