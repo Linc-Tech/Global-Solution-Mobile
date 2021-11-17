@@ -126,6 +126,7 @@ export default function Settings({ navigation }) {
 
       await AsyncStorage.setItem(ongs_registrated, JSON.stringify(ongUpdated));
       setUpdateModalVisible(!updateModalVisible);
+      navigation.navigate('Início');
     } catch (e) {
       console.error('SETTINGS', e);
     }
