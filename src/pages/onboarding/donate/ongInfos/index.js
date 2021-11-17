@@ -18,6 +18,7 @@ export default function Ong({ navigation, route }) {
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [value, setValue] = useState('');
+  const [moneyField, setMoneyField] = useState('');
 
   function confirmDonationHandle() {
     const form = {
@@ -45,13 +46,15 @@ export default function Ong({ navigation, route }) {
       const donations = await AsyncStorage.getItem(donations_registrated);
       const currentData = donations ? JSON.parse(donations) : [];
 
+      data.value = moneyField.getRawValue();
+
       const dataFormatted = [
         ...currentData,
         data
       ];
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(dataFormatted));
-      return navigation.navigate('Donate');;
+      return navigation.navigate('Donate');
     } catch (e) {
       console.error('DONATION \n', e);
     }
@@ -129,6 +132,7 @@ export default function Ong({ navigation, route }) {
                       unit: 'R$',
                       suffixUnit: ''
                     }}
+                    ref={ref => setMoneyField(ref)}
                     value={value}
                     onChangeText={setValue}
                     style={styles.input}

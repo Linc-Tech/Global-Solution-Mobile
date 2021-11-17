@@ -37,10 +37,15 @@ export default function Home() {
 
       if (thisOngDonations.length === 0) return;
 
+      console.log('HOME', thisOngDonations);
+
       let donations = 0;
       let collections = 0;
       thisOngDonations.map(donation => {
-        collections += parseInt(donation.value);
+        console.log('HOME', donation.value);
+        // const value = donation.value.split('R$');
+        // console.log(parseFloat(value[1]), value[1]);
+        // collections += donation.value;
         donations++;
       });
 

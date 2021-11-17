@@ -1,14 +1,15 @@
 import { useFocusEffect } from '@react-navigation/core';
 import React, { useCallback, useContext, useState } from 'react';
-import { Modal, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Modal, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { AuthContext } from '../../../context';
+import { TextInputMask } from 'react-native-masked-text';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ModalButtonText } from '../../onboarding/donate/ongInfos/styles';
 import { Button, ButtonText, Form, InputSection, Label } from '../../onboarding/login/styles';
 import { Container, Footer, RegistrationContainer } from '../../onboarding/registration/styles';
 import { DonationModalButton, Title } from '../donations/styles';
-import { ongs_registrated } from '../../../../constants/storage';
+import { donations_confirmed, donations_registrated, ongs_registrated } from '../../../../constants/storage';
 
 export default function Settings({ navigation }) {
   const { signedIn, signOngOut } = useContext(AuthContext);
@@ -48,13 +49,32 @@ export default function Settings({ navigation }) {
     };
 
     fetchOngs();
-  }, []))
+  }, []));
+
+  function inputHandle(value, input) {
+    if (input === 'agency') {
+      if (!!parseInt(value) || parseInt(value) === 0) {
+        return setAgency(value);
+      } else {
+        return setAgency('');
+      }
+
+    } else if (input === 'account') {
+      if (!!parseInt(value) || parseInt(value) === 0) {
+        setAccount(value);
+      } else {
+        return setAccount('');
+      }
+    }
+  }
 
   async function updateOngDataHandle() {
     const form = {
       name: name,
       email: email,
       cnpj: cnpj,
+      password: password,
+      confirmPassword: confirmPassword,
       siteLink: siteLink,
       text: text,
       bank: bank,
@@ -65,10 +85,16 @@ export default function Settings({ navigation }) {
     let inputIsNull = false;
     Object.keys(form).forEach(elem => {
       const value = form[elem];
-      if (value === null) return inputIsNull = true;
+      if (!value) return inputIsNull = true;
     });
 
-    if (inputIsNull) return Alert.alert('Por favor, insira os valores corretamente');
+    if (inputIsNull) {
+      setUpdateModalVisible(!updateModalVisible);
+      return Alert.alert('Por favor, insira os valores corretamente');
+    }
+
+    if (form.password !== form.confirmPassword)
+      return  Alert.alert('As senhas estão diferentes');
 
     await updateOng(form);
   }
@@ -83,7 +109,6 @@ export default function Settings({ navigation }) {
       const ongInfo = currentOngs.filter(attr => {
         return attr.id === ongId;
       });
-
 
       const ongInfoUpdated = {
         ...ongInfo[0],
@@ -118,6 +143,33 @@ export default function Settings({ navigation }) {
       });
 
       await AsyncStorage.setItem(ongs_registrated, JSON.stringify(ongsUpdated));
+
+      // Delete Donations
+      const donations = JSON.parse(await AsyncStorage.getItem(donations_registrated));
+      const currentDonations = donations ? donations : [];
+
+      if (!currentDonations) return;
+
+      const ongDonationsUpdated = currentDonations.filter(attr => {
+        return attr.ongEmail !== email;
+      });
+
+      await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
+
+      // Delete Confirmed Donations
+      const donationsConfirmed = JSON.parse(await AsyncStorage.getItem(donations_confirmed));
+      const currentConfirmedDonations = donationsConfirmed ? donationsConfirmed : [];
+
+      const thisOngDonations = currentConfirmedDonations.filter(attr => {
+        return attr.ongEmail !== email;
+      });
+
+      if (!thisOngDonations) return;
+
+      console.log(thisOngDonations);
+
+      await AsyncStorage.setItem(donations_confirmed, JSON.stringify(thisOngDonations));
+
       signOngOut();
     } catch(e) {
       console.error('SETTINGS', e);
@@ -235,12 +287,12 @@ export default function Settings({ navigation }) {
               CNPJ
             </Label>
           </View>
-          <TextInput
-            onChangeText={setCnpj}
+          <TextInputMask
+            type={'cnpj'}
             value={cnpj}
-            autoCapitalize="none"
+            onChangeText={setCnpj}
             style={styles.input}
-            placeholder={cnpj}
+            placeholder="57.847.883/0001-97"
           />
         </InputSection>
 
@@ -342,11 +394,12 @@ export default function Settings({ navigation }) {
             </Label>
           </View>
           <TextInput
-            onChangeText={setAgency}
+            onChangeText={value => inputHandle(value, 'agency')}
             value={agency}
             autoCapitalize="none"
             style={styles.input}
-            placeholder={agency}
+            placeholder="0000"
+            maxLength={4}
           />
         </InputSection>
 
@@ -359,11 +412,12 @@ export default function Settings({ navigation }) {
             </Label>
           </View>
           <TextInput
-            onChangeText={setAccount}
+            onChangeText={value => inputHandle(value, 'account')}
             value={account}
             autoCapitalize="none"
             style={styles.input}
-            placeholder={account}
+            placeholder="0000000-0"
+            maxLength={9}
           />
         </InputSection>
       </Form>

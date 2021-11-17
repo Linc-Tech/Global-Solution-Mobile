@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, TextInput, View } from "react-native";
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text';
+import { v4 as uuid } from "uuid";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ComeBackButton from "../../../components/ComeBackButton";
@@ -39,6 +40,7 @@ export default function Registration({ navigation }) {
 
   async function registrationHandle() {
     const form = {
+      id: uuid(),
       name: name,
       email: email,
       cnpj: cnpj,
