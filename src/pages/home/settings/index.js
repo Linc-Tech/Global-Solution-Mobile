@@ -167,8 +167,6 @@ export default function Settings({ navigation }) {
 
       if (!thisOngDonations) return;
 
-      console.log(thisOngDonations);
-
       await AsyncStorage.setItem(donations_confirmed, JSON.stringify(thisOngDonations));
 
       signOngOut();

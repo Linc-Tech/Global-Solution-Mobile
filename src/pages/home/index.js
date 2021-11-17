@@ -37,8 +37,6 @@ export default function Home() {
 
       if (thisOngDonations.length === 0) return;
 
-      console.log('HOME', thisOngDonations);
-
       let donations = 0;
       let collections = 0;
       thisOngDonations.map(donation => {

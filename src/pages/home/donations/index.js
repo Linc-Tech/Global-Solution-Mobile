@@ -68,6 +68,7 @@ export default function Donations({ navigation }) {
 
       await AsyncStorage.setItem(donations_registrated, JSON.stringify(ongDonationsUpdated));
 
+      setDonations(ongDonationsUpdated);
       setConfirmModalVisible(false);
     } catch (e) {
       console.error('DONATIONS', e);
@@ -233,16 +234,16 @@ export default function Donations({ navigation }) {
         {
           confirmModalVisible
           ?
-          __renderConfirmModal()
+          (__renderConfirmModal())
           :
-          <View></View>
+          (<View></View>)
         }
         {
           declineModalVisible
           ?
-          __renderDeclineModal()
+          (__renderDeclineModal())
           :
-          <View></View>
+          (<View></View>)
         }
         <View style={{ height: '100%' }}>
           {

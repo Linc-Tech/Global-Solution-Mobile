@@ -25,7 +25,6 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const DonationContainer = styled.View`
-  flex: 1;
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-color: #EEE;
