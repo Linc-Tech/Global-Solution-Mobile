@@ -85,7 +85,7 @@ export default function Donate({ navigation }) {
               />
               :
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ textAlign: 'center', lineHeight: 24, fontFamily: 'Helvetica', fontSize: 16, color: '#198754'}}>
+                <Text style={{ textAlign: 'center', lineHeight: 24, fontSize: 16, color: '#198754'}}>
                   Ainda não possuímos ONGs cadastradas para você doar...
                 </Text>
               </View>

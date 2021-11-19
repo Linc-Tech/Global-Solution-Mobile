@@ -62,7 +62,7 @@ export default function Home() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+              <Text style={{ lineHeight: 22, fontSize: 15 }}>
                 Você tem certeza que deseja sair?
               </Text>
 

@@ -108,7 +108,7 @@ export default function Donations({ navigation }) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+              <Text style={{ lineHeight: 22, fontSize: 15 }}>
                 Você tem certeza que deseja confirmar essa ação?
               </Text>
 
@@ -142,7 +142,7 @@ export default function Donations({ navigation }) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+              <Text style={{ lineHeight: 22, fontSize: 15 }}>
                 Você tem certeza que deseja confirmar essa ação?
               </Text>
 
@@ -256,7 +256,7 @@ export default function Donations({ navigation }) {
             />)
             :
             (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'  }}>
-              <Text style={{ textAlign: 'center', fontFamily: 'Helvetica', fontSize: 16, color: '#198754', lineHeight: 24 }}>
+              <Text style={{ textAlign: 'center', fontSize: 16, color: '#198754', lineHeight: 24 }}>
                 Você ainda não recebeu nenhuma confirmação de doação...
               </Text>
             </View>)

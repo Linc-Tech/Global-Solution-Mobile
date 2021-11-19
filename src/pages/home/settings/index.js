@@ -186,7 +186,7 @@ export default function Settings({ navigation }) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+              <Text style={{ lineHeight: 22, fontSize: 15 }}>
                 Você tem certeza que deseja confirmar essa ação?
               </Text>
 
@@ -220,7 +220,7 @@ export default function Settings({ navigation }) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{ lineHeight: 22, fontSize: 15, fontFamily: 'Helvetica' }}>
+              <Text style={{ lineHeight: 22, fontSize: 15 }}>
                 Você tem certeza que deseja confirmar essa ação?
               </Text>
 

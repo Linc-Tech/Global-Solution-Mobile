@@ -6,7 +6,6 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const OngName = styled.Text`
-  font-family: 'Helvetica';
   font-size: 22px;
   font-weight: 300;
   margin: 15px 0 30px;
@@ -17,14 +16,12 @@ export const InfoField = styled.View`
 `;
 
 export const Bold = styled.Text`
-  font-family: 'Helvetica';
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 8px;
 `;
 
 export const Info = styled.Text`
-  font-family: 'Helvetica';
 `;
 
 export const BankField = styled.View`
@@ -40,7 +37,6 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalButtonText = styled.Text`
-  font-family: 'Helvetica';
   font-size: 16px;
   font-weight: 500;
   color: white;

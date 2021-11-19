@@ -31,7 +31,6 @@ export const Title = styled.Text`
   font-weight: 600;
   line-height: 50px;
   color: white;
-  font-family: 'Helvetica';
 `;
 
 export const Subtitle = styled.Text`
@@ -39,7 +38,6 @@ export const Subtitle = styled.Text`
   font-size: 20px;
   font-weight: 300;
   color: white;
-  font-family: 'Helvetica';
 `;
 
 export const Buttons = styled.View`
@@ -55,7 +53,6 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const ButtonText = styled.Text`
-  font-family: 'Helvetica';
   font-size: 16px;
   font-weight: 500;
   color: white;

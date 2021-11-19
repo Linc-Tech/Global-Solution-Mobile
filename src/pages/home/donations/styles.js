@@ -15,7 +15,6 @@ export const Title = styled.Text`
   font-size: 20px;
   text-align: center;
   font-weight: 600;
-  font-family: 'Helvetica';
   margin: 30px 0 20px;
 `;
 
@@ -48,12 +47,10 @@ export const Box = styled.View`
 export const DonationTitle = styled.Text`
   font-size: 16px;
   font-weight: 600;
-  font-family: 'Helvetica';
   margin: 10px 0 5px;
 `;
 
 export const DonationText = styled.Text`
-  font-family: 'Helvetica';
   margin-bottom: 5px;
 `;
 
@@ -76,7 +73,6 @@ export const Button = styled.TouchableOpacity`
 export const BtnText = styled.Text`
   font-size: 16px;
   font-weight: 600;
-  font-family: 'Helvetica';
   color: #fff;
 `;
 
