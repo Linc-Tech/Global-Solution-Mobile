@@ -44,6 +44,7 @@ export default function Initial({ navigation }) {
         </Buttons>
 
       </Container>
+      <StatusBar barStyle="dark-content" />
     </View>
   );
 }
