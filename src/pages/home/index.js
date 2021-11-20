@@ -117,7 +117,7 @@ export default function Home() {
                 </View>
                 <></>
               </HomeBox>
-              <View style={{ alignItems: 'start' }}>
+              <View>
                 <HomeTxtValues>R$ {collections}</HomeTxtValues>
               </View>
             </View>
